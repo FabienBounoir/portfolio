@@ -43,23 +43,21 @@ class Scene {
 
     const loadingScreenTitleLoader = document.querySelector(".loading-screen__title--loader");
     this.loadingManager = new THREE.LoadingManager(
-        // Loaded
-        () =>
-        {
-          console.log('loaded');
-        },
+      // Loaded
+      () => {
+        console.log('loaded');
+      },
 
-        // Progress
-        (itemUrl, itemsLoaded, itemsTotal) =>
-        {
-            const progressRatio = itemsLoaded / itemsTotal * 100;
-            console.log(itemsLoaded, itemsTotal, progressRatio)
-            loadingScreenTitleLoader.style.width = `${progressRatio}%`;
-        }
+      // Progress
+      (itemUrl, itemsLoaded, itemsTotal) => {
+        const progressRatio = itemsLoaded / itemsTotal * 100;
+        console.log(itemsLoaded, itemsTotal, progressRatio)
+        loadingScreenTitleLoader.style.width = `${progressRatio}%`;
+      }
     );
     await this.loadResources();
     console.log('resources loaded');
-    
+
     setTimeout(() => {
       document.body.classList.add("loaded");
     }, 1000);
@@ -73,7 +71,7 @@ class Scene {
       }, 4200);
     };
 
-    
+
   }
 
   async loadResources() {
@@ -92,17 +90,18 @@ class Scene {
 
     // SETUP VIDEO TEXTURE
     const video = document.createElement('video');
+    video.style.cursor = 'pointer';
     this.video = video;
     // video.setAttribute('crossorigin', 'anonymous');
     // video.src = "https://player.vimeo.com/external/538877060.hd.mp4?s=4042b4dc217598f5ce7c4cf8b8c3787b42218ea3&profile_id=175";
-    video.src = "./presentation.mp4";
+    video.src = "./render.mp4";
     video.load();
     const videoTexture = new THREE.VideoTexture(video);
     videoTexture.wrapT = THREE.RepeatWrapping;
     videoTexture.repeat.y = -1;
-    videoTexture.rotation = -Math.PI/2;
+    videoTexture.rotation = -Math.PI / 2;
     videoTexture.center = new Vector2(0.5, 0.5);
-    const videoMaterial =  new THREE.MeshBasicMaterial( {map: videoTexture, side: THREE.FrontSide, toneMapped: false} );
+    const videoMaterial = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.FrontSide, toneMapped: false });
 
 
     const videoTwitch = document.createElement('video');
@@ -112,15 +111,35 @@ class Scene {
     videoTwitch.autoplay = true;
     videoTwitch.muted = true;
     // videoTwitch.src = "https://player.vimeo.com/external/538877060.hd.mp4?s=4042b4dc217598f5ce7c4cf8b8c3787b42218ea3&profile_id=175";
-    // videoTwitch.src = "./presentation.mp4";
+    videoTwitch.src = "./clip/dev.mp4";
     videoTwitch.load();
     videoTwitch.play();
+
+
+
     const videoTextureTwitch = new THREE.VideoTexture(videoTwitch);
     videoTextureTwitch.wrapT = THREE.RepeatWrapping;
     // videoTexture.repeat.y = -1;
-    videoTextureTwitch.rotation = Math.PI/2;
+    videoTextureTwitch.rotation = Math.PI / 2;
+    videoTextureTwitch.repeat.x = -1;
+
+
+
     videoTextureTwitch.center = new Vector2(0.5, 0.5);
-    const videoMaterialTwitch =  new THREE.MeshBasicMaterial( {map: videoTextureTwitch, side: THREE.FrontSide, toneMapped: false} );
+
+
+    const videoMaterialTwitch = new THREE.MeshBasicMaterial({ map: videoTextureTwitch, side: THREE.FrontSide, toneMapped: false });
+
+
+    // const videoIframe = new THREE.MeshBasicMaterial({ map: new THREE.Texture(iframe), side: THREE.FrontSide, toneMapped: false });
+
+
+    // const videoTextureTwitch = new THREE.VideoTexture(videoTwitch);
+    // videoTextureTwitch.wrapT = THREE.RepeatWrapping;
+    // // videoTexture.repeat.y = -1;
+    // videoTextureTwitch.rotation = Math.PI / 2;
+    // videoTextureTwitch.center = new Vector2(0.5, 0.5);
+    // const videoMaterialTwitch = new THREE.MeshBasicMaterial({ map: videoTextureTwitch, side: THREE.FrontSide, toneMapped: false });
 
 
 
@@ -141,6 +160,7 @@ class Scene {
         child.material = videoMaterial;
       } else if (child.name === "Twitch") {
         // self.computerObject = child;
+        // child.material = videoIframe;
         child.material = videoMaterialTwitch;
       } else if (child.name === "SM_Prop_Neon_Cactus_Light") {
         child.material = cactusLightMaterial;
@@ -171,7 +191,7 @@ class Scene {
       stats.dom.style.left = '';
       stats.dom.style.bottom = '0';
       stats.dom.style.top = '';
-  }
+    }
 
     // Canvas
     const canvas = document.querySelector('canvas.webgl')
@@ -186,37 +206,37 @@ class Scene {
      */
     const raycaster = new THREE.Raycaster();
     const points = {
-      'Education' : {
+      'Education': {
         offset: new THREE.Vector3(0.1, -0.24, 0),
         element: document.querySelector('.point--education'),
         details: document.querySelector('.screen--education'),
         visible: false,
       },
-      'Activities' : {
+      'Activities': {
         offset: new THREE.Vector3(-0.6, -0.33, -0.2),
         element: document.querySelector('.point--activities'),
         details: document.querySelector('.screen--activities'),
         visible: false,
       },
-      'Achievements' : {
+      'Achievements': {
         offset: new THREE.Vector3(0, -0.3, 0.2),
         element: document.querySelector('.point--achievements'),
         details: document.querySelector('.screen--achievements'),
         visible: false,
       },
-      'About' : {
+      'About': {
         offset: new THREE.Vector3(0, -0.1, -0.2),
         element: document.querySelector('.point--about'),
         details: document.querySelector('.screen--about'),
         visible: false,
       },
-      'Contact' : {
+      'Contact': {
         offset: new THREE.Vector3(-0.1, -0.3, 0),
         element: document.querySelector('.point--contact'),
         details: document.querySelector('.screen--contact'),
         visible: false,
       },
-      'Skills' : {
+      'Skills': {
         offset: new THREE.Vector3(0, 0, 0.3),
         element: document.querySelector('.point--skills'),
         details: document.querySelector('.screen--skills'),
@@ -235,18 +255,16 @@ class Scene {
 
     console.log(this.office)
     scene.add(this.office);
-    this.office.traverse((child) =>
-    {
+    this.office.traverse((child) => {
       const point = points[child.name];
       if (point) {
         point.position = new THREE.Vector3(
-          child.position.x + point.offset.x, 
-          child.position.y + point.offset.y, 
+          child.position.x + point.offset.x,
+          child.position.y + point.offset.y,
           child.position.z + point.offset.z
         );
       }
-      if(child instanceof THREE.Mesh)
-      {
+      if (child instanceof THREE.Mesh) {
         child.castShadow = true;
         child.receiveShadow = true;
       }
@@ -278,7 +296,7 @@ class Scene {
     })
 
 
-    
+
 
     /**
      * Camera
@@ -287,7 +305,7 @@ class Scene {
     const camera = new THREE.PerspectiveCamera(65, sizes.width / sizes.height, 0.01, 80);
     scene.add(camera);
     camera.position.set(2, 1.5, -2);
-    
+
     this.cameraRotation = 0;
 
 
@@ -371,18 +389,18 @@ class Scene {
 
     document.body.classList.add('camera-moving');
     gsap.to(camera.position, {
-			duration: 4,
-			x: -1.8,
-			y: 1.3,
-			z: 1.1,
+      duration: 4,
+      x: -1.8,
+      y: 1.3,
+      z: 1.1,
       delay: 2.4,
-			onUpdate: () => {
+      onUpdate: () => {
         controls.target.set(defaultControlsPosition.x, defaultControlsPosition.y, defaultControlsPosition.z);
-			},
+      },
       onComplete: () => {
         document.body.classList.remove('camera-moving');
       },
-		});
+    });
 
     /*
     ** User Click
@@ -392,13 +410,11 @@ class Scene {
     let currentPoint;
     const mouse = new THREE.Vector2();
 
-    renderer.domElement.addEventListener('mousemove', (event) =>
-    {
+    renderer.domElement.addEventListener('mousemove', (event) => {
       mouseMove(event.clientX, event.clientY)
     });
 
-    renderer.domElement.addEventListener('touchstart', (event) =>
-    {
+    renderer.domElement.addEventListener('touchstart', (event) => {
       mouseMove(event.touches[0].clientX, event.touches[0].clientY);
     });
 
@@ -407,15 +423,14 @@ class Scene {
       mouse.y = - (y / sizes.height) * 2 + 1;
     }
 
-    for(const key in points)
-    {
+    for (const key in points) {
       const point = points[key];
       point.element.addEventListener('pointerdown', (event) => {
         currentPoint = point;
         camToSave.position = camera.position.clone();
         camToSave.quaternion = camera.quaternion.clone();
         let triggeredVisibilityDetails = false;
-      document.body.classList.add('camera-moving');
+        document.body.classList.add('camera-moving');
         let tween = gsap.to(controls.target, {
           duration: 1.2,
           x: point.position.x,
@@ -435,7 +450,7 @@ class Scene {
         });
       });
     }
-    
+
     const closeDetailsPanel = () => {
       camToSave.resetPosition = true;
       document.body.classList.remove("details");
@@ -458,7 +473,7 @@ class Scene {
         y: camToSave.position.y,
         z: camToSave.position.z,
         delay: 0,
-        onUpdate: function() {
+        onUpdate: function () {
         }
       });
     };
@@ -471,7 +486,7 @@ class Scene {
 
     renderer.domElement.addEventListener('pointerdown', () => {
       if (isHoveringComputerScreen && self.video.paused) {
-          self.video.play(); 
+        self.video.play();
       }
     });
 
@@ -502,42 +517,37 @@ class Scene {
       controls.update();
 
       // Go through each point
-      for(const key in points)
-      {
+      for (const key in points) {
         const point = points[key];
         // console.log(point, point.position)
-        if(!point.position) continue;
+        if (!point.position) continue;
         const screenPosition = point.position.clone();
         screenPosition.project(camera);
 
         const translateX = screenPosition.x * sizes.width * 0.5;
         const translateY = - screenPosition.y * sizes.height * 0.5;
         point.element.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
-        
+
         // Check if point is visible before raycasting
         let frustum = new THREE.Frustum();
-        frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
+        frustum.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
         if (!frustum.containsPoint(point.position)) {
           setVisibilityForPoint(point, false);
-          continue ;
+          continue;
         }
 
         raycaster.setFromCamera(screenPosition, camera);
         const intersects = raycaster.intersectObjects(scene.children, true);
-        if(intersects.length === 0)
-        {
+        if (intersects.length === 0) {
           setVisibilityForPoint(point, true);
         }
-        else
-        {
+        else {
           const intersectionDistance = intersects[0].distance;
           const pointDistance = point.position.distanceTo(camera.position);
-          if(intersectionDistance < pointDistance)
-          {
+          if (intersectionDistance < pointDistance) {
             setVisibilityForPoint(point, false);
           }
-          else
-          {
+          else {
             setVisibilityForPoint(point, true);
           }
         }

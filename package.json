@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
-    "serve": "webpack serve --config ./bundler/webpack.dev.js"
+    "serve": "webpack serve --config ./bundler/webpack.dev.js",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
@@ -12,6 +13,7 @@
     "css-loader": "^5.0.1",
     "dat.gui": "^0.7.7",
     "file-loader": "^6.2.0",
+    "gh-pages": "^4.0.0",
     "gsap": "^3.5.1",
     "html-loader": "^1.3.2",
     "html-webpack-plugin": "^5.0.0-alpha.7",
