@@ -81,11 +81,11 @@ class Scene {
     */
     this.gltfLoader = new GLTFLoader(this.loadingManager)
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('/draco/')
+    dracoLoader.setDecoderPath('./draco/')
     this.gltfLoader.setDRACOLoader(dracoLoader)
 
     // LOAD OFFICE
-    const gltf = await this.gltfLoader.loadAsync('/models/Offices/office.glb');
+    const gltf = await this.gltfLoader.loadAsync('./models/Offices/office.glb');
 
 
     // SETUP VIDEO TEXTURE
