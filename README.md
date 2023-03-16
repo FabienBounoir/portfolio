@@ -1,6 +1,6 @@
-# Portfolio 2021
+# Portfolio
 
-Welcome to my Three.js portfolio, you can visit the built & deployed version [here](https://wassimsamad.com)
+Welcome to my Three.js portfolio, you can visit the built & deployed version [here](https://fabienbounoir.github.io/portfolio)
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
